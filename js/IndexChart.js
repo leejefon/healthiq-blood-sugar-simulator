@@ -29,10 +29,10 @@ System.register(['angular2/core', 'zingchart'], function(exports_1, context_1) {
                     var _this = this;
                     this.zone.runOutsideAngular(function () {
                         zingchart_1.zingchart.render({
-                            id: _this.chart['id'],
-                            data: _this.chart['data'],
-                            width: _this.chart['width'],
-                            height: _this.chart['height']
+                            id: _this.chart.id,
+                            data: _this.chart.data,
+                            width: _this.chart.width,
+                            height: _this.chart.height
                         });
                     });
                 };

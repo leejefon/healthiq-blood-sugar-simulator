@@ -3,6 +3,7 @@ import { ExerciseService } from './ExerciseService';
 import { FoodService } from './FoodService';
 import { IndexChart } from './IndexChart';
 import { Chart } from './Chart';
+import { zingchart } from 'zingchart';
 
 @Component({
     selector: 'blood-sugar-simulator',
@@ -11,27 +12,43 @@ import { Chart } from './Chart';
     directives: [IndexChart]
 })
 export class App {
-    charts: Chart[];
+    chart: Chart;
+    hourlyBS: Number[];
 
     constructor(
         private exercise: ExerciseService,
         private food: FoodService
     ) {
-        this.charts = [{
-            id : 'chart-1',
+        this.hourlyBS = Array(24).fill(80);
+
+        this.chart = new Chart({
+            id : 'index-chart',
             data : {
-                type : 'line',
-                series : [{
-                    values :[2,3,4,5,3,3,2]
+                type: 'line',
+                series: [{
+                    values: this.hourlyBS
                 }],
-            },
-            height : 400,
-            width : 600
-        }];
+                'scale-y': {
+                    'max-value': 160,
+                    'label': { text: "Blood Sugar Level" }
+                },
+                'scale-x': {
+                    label: { text: "Hours of a Day" }
+                }
+            }
+        });
     }
 
     test() {
-        console.log(this.food.getIndexById(1));
-        console.log(this.exercise.getIndexByName('walking'));
+        this.hourlyBS[3] = 100;
+        this.updateData(this.hourlyBS);
+    }
+
+    private updateData(data: any) {
+        zingchart.exec(this.chart.id, 'modify', {
+            data : {
+                series: [{ values: data }]
+            }
+        });
     }
 }

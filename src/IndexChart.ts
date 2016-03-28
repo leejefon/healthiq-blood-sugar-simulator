@@ -8,7 +8,7 @@ import { Chart } from './Chart';
     templateUrl: 'templates/index-chart.html'
 })
 export class IndexChart {
-    chart : Chart;
+    chart: Chart;
 
     constructor(private zone: NgZone) {
 
@@ -17,10 +17,10 @@ export class IndexChart {
     ngAfterViewInit() {
         this.zone.runOutsideAngular(() => {
             zingchart.render({
-                id : this.chart['id'],
-                data : this.chart['data'],
-                width : this.chart['width'],
-                height: this.chart['height']
+                id : this.chart.id,
+                data : this.chart.data,
+                width : this.chart.width,
+                height: this.chart.height
             });
         });
     }

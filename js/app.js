@@ -1,4 +1,4 @@
-System.register(['angular2/core', './ExerciseService', './FoodService', './IndexChart'], function(exports_1, context_1) {
+System.register(['angular2/core', './ExerciseService', './FoodService', './IndexChart', './Chart', 'zingchart'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', './ExerciseService', './FoodService', './Index
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, ExerciseService_1, FoodService_1, IndexChart_1;
+    var core_1, ExerciseService_1, FoodService_1, IndexChart_1, Chart_1, zingchart_1;
     var App;
     return {
         setters:[
@@ -25,27 +25,46 @@ System.register(['angular2/core', './ExerciseService', './FoodService', './Index
             },
             function (IndexChart_1_1) {
                 IndexChart_1 = IndexChart_1_1;
+            },
+            function (Chart_1_1) {
+                Chart_1 = Chart_1_1;
+            },
+            function (zingchart_1_1) {
+                zingchart_1 = zingchart_1_1;
             }],
         execute: function() {
             App = (function () {
                 function App(exercise, food) {
                     this.exercise = exercise;
                     this.food = food;
-                    this.charts = [{
-                            id: 'chart-1',
-                            data: {
-                                type: 'line',
-                                series: [{
-                                        values: [2, 3, 4, 5, 3, 3, 2]
-                                    }],
+                    this.hourlyBS = Array(24).fill(80);
+                    this.chart = new Chart_1.Chart({
+                        id: 'index-chart',
+                        data: {
+                            type: 'line',
+                            series: [{
+                                    values: this.hourlyBS
+                                }],
+                            'scale-y': {
+                                'max-value': 160,
+                                'label': { text: "Blood Sugar Level" }
                             },
-                            height: 400,
-                            width: 600
-                        }];
+                            'scale-x': {
+                                label: { text: "Hours of a Day" }
+                            }
+                        }
+                    });
                 }
                 App.prototype.test = function () {
-                    console.log(this.food.getIndexById(1));
-                    console.log(this.exercise.getIndexByName('walking'));
+                    this.hourlyBS[3] = 100;
+                    this.updateData(this.hourlyBS);
+                };
+                App.prototype.updateData = function (data) {
+                    zingchart_1.zingchart.exec(this.chart.id, 'modify', {
+                        data: {
+                            series: [{ values: data }]
+                        }
+                    });
                 };
                 App = __decorate([
                     core_1.Component({

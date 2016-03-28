@@ -9,7 +9,7 @@ System.register([], function(exports_1, context_1) {
                 function Chart(config) {
                     this.id = config['id'];
                     this.data = config['data'];
-                    this.height = config['height'] || 300;
+                    this.height = config['height'] || 400;
                     this.width = config['width'] || 600;
                 }
                 return Chart;
