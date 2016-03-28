@@ -13,35 +13,49 @@ import { zingchart } from 'zingchart';
 })
 export class App {
     chart: Chart;
-    hourlyBS: Number[];
+    bsLevel: Number[];
 
     constructor(
         private exercise: ExerciseService,
         private food: FoodService
     ) {
-        this.hourlyBS = Array(24).fill(80);
+        this.bsLevel = Array(60 * 24).fill(80);
 
         this.chart = new Chart({
             id : 'index-chart',
             data : {
                 type: 'line',
                 series: [{
-                    values: this.hourlyBS
+                    values: this.bsLevel
                 }],
                 'scale-y': {
-                    'max-value': 160,
-                    'label': { text: "Blood Sugar Level" }
+                    label: { text: "Blood Sugar Level" },
+                    'min-value': 0,
+                    'max-value': 160
                 },
                 'scale-x': {
-                    label: { text: "Hours of a Day" }
+                    label: { text: "Hours of a Day" },
+                    'min-value': 0,
+                    'max-value': 60 * 24,
+                    // step: 120,
+                    labels: (() => {
+                        var result = [];
+                        for (var i = 0; i <= 60 * 24; i++) {
+                            result[i] = this.leftPad(Math.floor(i / 60)) + ":" + this.leftPad((i % 60));
+                        }
+                        return result;
+                    })()
                 }
             }
         });
     }
 
     test() {
-        this.hourlyBS[3] = 100;
-        this.updateData(this.hourlyBS);
+        this.bsLevel = this.bsLevel.map((bslevel, index) => {
+            if (index > 120 && index < 600) return 100;
+            else return bslevel;
+        });
+        this.updateData(this.bsLevel);
     }
 
     private updateData(data: any) {
@@ -50,5 +64,9 @@ export class App {
                 series: [{ values: data }]
             }
         });
+    }
+
+    private leftPad(number: Number) {
+        return ("00" + number).slice(-2);
     }
 }

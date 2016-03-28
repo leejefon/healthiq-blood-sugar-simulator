@@ -35,29 +35,45 @@ System.register(['angular2/core', './ExerciseService', './FoodService', './Index
         execute: function() {
             App = (function () {
                 function App(exercise, food) {
+                    var _this = this;
                     this.exercise = exercise;
                     this.food = food;
-                    this.hourlyBS = Array(24).fill(80);
+                    this.bsLevel = Array(60 * 24).fill(80);
                     this.chart = new Chart_1.Chart({
                         id: 'index-chart',
                         data: {
                             type: 'line',
                             series: [{
-                                    values: this.hourlyBS
+                                    values: this.bsLevel
                                 }],
                             'scale-y': {
-                                'max-value': 160,
-                                'label': { text: "Blood Sugar Level" }
+                                label: { text: "Blood Sugar Level" },
+                                'min-value': 0,
+                                'max-value': 160
                             },
                             'scale-x': {
-                                label: { text: "Hours of a Day" }
+                                label: { text: "Hours of a Day" },
+                                'min-value': 0,
+                                'max-value': 60 * 24,
+                                labels: (function () {
+                                    var result = [];
+                                    for (var i = 0; i <= 60 * 24; i++) {
+                                        result[i] = _this.leftPad(Math.floor(i / 60)) + ":" + _this.leftPad((i % 60));
+                                    }
+                                    return result;
+                                })()
                             }
                         }
                     });
                 }
                 App.prototype.test = function () {
-                    this.hourlyBS[3] = 100;
-                    this.updateData(this.hourlyBS);
+                    this.bsLevel = this.bsLevel.map(function (bslevel, index) {
+                        if (index > 120 && index < 600)
+                            return 100;
+                        else
+                            return bslevel;
+                    });
+                    this.updateData(this.bsLevel);
                 };
                 App.prototype.updateData = function (data) {
                     zingchart_1.zingchart.exec(this.chart.id, 'modify', {
@@ -65,6 +81,9 @@ System.register(['angular2/core', './ExerciseService', './FoodService', './Index
                             series: [{ values: data }]
                         }
                     });
+                };
+                App.prototype.leftPad = function (number) {
+                    return ("00" + number).slice(-2);
                 };
                 App = __decorate([
                     core_1.Component({
