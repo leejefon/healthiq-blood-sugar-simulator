@@ -1,3 +1,4 @@
 <div>
     <h3 (click)="test()">Blood Sugar Simulator</h3>
+    <index-chart *ngFor="#chartObj of charts" [chart]='chartObj'></index-chart>
 </div>

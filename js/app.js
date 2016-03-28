@@ -1,4 +1,4 @@
-System.register(['angular2/core', './ExerciseService', './FoodService'], function(exports_1, context_1) {
+System.register(['angular2/core', './ExerciseService', './FoodService', './IndexChart'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', './ExerciseService', './FoodService'], functio
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, ExerciseService_1, FoodService_1;
+    var core_1, ExerciseService_1, FoodService_1, IndexChart_1;
     var App;
     return {
         setters:[
@@ -22,12 +22,26 @@ System.register(['angular2/core', './ExerciseService', './FoodService'], functio
             },
             function (FoodService_1_1) {
                 FoodService_1 = FoodService_1_1;
+            },
+            function (IndexChart_1_1) {
+                IndexChart_1 = IndexChart_1_1;
             }],
         execute: function() {
             App = (function () {
                 function App(exercise, food) {
                     this.exercise = exercise;
                     this.food = food;
+                    this.charts = [{
+                            id: 'chart-1',
+                            data: {
+                                type: 'line',
+                                series: [{
+                                        values: [2, 3, 4, 5, 3, 3, 2]
+                                    }],
+                            },
+                            height: 400,
+                            width: 600
+                        }];
                 }
                 App.prototype.test = function () {
                     console.log(this.food.getIndexById(1));
@@ -37,7 +51,8 @@ System.register(['angular2/core', './ExerciseService', './FoodService'], functio
                     core_1.Component({
                         selector: 'blood-sugar-simulator',
                         templateUrl: 'app.html',
-                        providers: [ExerciseService_1.ExerciseService, FoodService_1.FoodService]
+                        providers: [ExerciseService_1.ExerciseService, FoodService_1.FoodService],
+                        directives: [IndexChart_1.IndexChart]
                     }), 
                     __metadata('design:paramtypes', [ExerciseService_1.ExerciseService, FoodService_1.FoodService])
                 ], App);
