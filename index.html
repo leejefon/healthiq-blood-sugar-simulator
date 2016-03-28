@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Blood Sugar Simulator</title>
+
+    <link rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.min.css" />
+
+    <!-- <script src="node_modules/es6-shim/es6-shim.min.js"></script> -->
+    <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+
+    <script src="node_modules/rxjs/bundles/Rx.js"></script>
+    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+    <script src="node_modules/angular2/bundles/angular2.js"></script>
+
+    <script>
+        System.config({
+            map: {
+                app: "./js"
+            },
+            packages: {
+                app: {
+                    main: './bootstrap.js',
+                    defaultExtension: 'js'
+                }
+            }
+        });
+
+        System.import('app')
+            .catch(console.error.bind(console));
+    </script>
+</head>
+
+<body>
+    <blood-sugar-simulator></blood-sugar-simulator>
+</body>
+</html>
