@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1, context_1) {
+System.register(['angular2/core', './ExerciseService', './FoodService'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,23 +10,36 @@ System.register(['angular2/core'], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
+    var core_1, ExerciseService_1, FoodService_1;
     var App;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (ExerciseService_1_1) {
+                ExerciseService_1 = ExerciseService_1_1;
+            },
+            function (FoodService_1_1) {
+                FoodService_1 = FoodService_1_1;
             }],
         execute: function() {
             App = (function () {
-                function App() {
+                function App(exercise, food) {
+                    this.exercise = exercise;
+                    this.food = food;
                 }
+                App.prototype.test = function () {
+                    console.log(this.exercise.getIndices());
+                    console.log(this.food.getIndices());
+                };
                 App = __decorate([
                     core_1.Component({
                         selector: 'blood-sugar-simulator',
-                        templateUrl: 'app.html'
+                        templateUrl: 'app.html',
+                        providers: [ExerciseService_1.ExerciseService, FoodService_1.FoodService]
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [ExerciseService_1.ExerciseService, FoodService_1.FoodService])
                 ], App);
                 return App;
             }());
