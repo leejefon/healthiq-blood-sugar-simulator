@@ -29,12 +29,24 @@ System.register(['angular2/core', 'papaparse'], function(exports_1, context_1) {
                         header: true,
                         skipEmptyLines: true,
                         complete: function (results) {
-                            self.indices = results.data;
+                            self.indices = results.data.map(function (item) {
+                                return {
+                                    id: parseInt(item['ID']),
+                                    name: item['Name'],
+                                    index: parseInt(item['Glycemic Index'])
+                                };
+                            });
                         }
                     });
                 }
                 FoodService.prototype.getIndices = function () {
                     return this.indices;
+                };
+                FoodService.prototype.getIndexByName = function (name) {
+                    return this.indices.find(function (food) { return food.name.toLowerCase() === name.toLowerCase(); });
+                };
+                FoodService.prototype.getIndexById = function (id) {
+                    return this.indices.find(function (food) { return food.id === id; });
                 };
                 FoodService = __decorate([
                     core_1.Injectable(), 

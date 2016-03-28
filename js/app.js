@@ -30,8 +30,8 @@ System.register(['angular2/core', './ExerciseService', './FoodService'], functio
                     this.food = food;
                 }
                 App.prototype.test = function () {
-                    console.log(this.exercise.getIndices());
-                    console.log(this.food.getIndices());
+                    console.log(this.food.getIndexById(1));
+                    console.log(this.exercise.getIndexByName('walking'));
                 };
                 App = __decorate([
                     core_1.Component({

@@ -17,7 +17,7 @@ export class App {
     }
 
     test() {
-        console.log(this.exercise.getIndices());
-        console.log(this.food.getIndices());
+        console.log(this.food.getIndexById(1));
+        console.log(this.exercise.getIndexByName('walking'));
     }
 }
