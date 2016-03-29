@@ -39,14 +39,11 @@ System.register(['angular2/core', 'papaparse'], function(exports_1, context_1) {
                         }
                     });
                 }
-                ExerciseService.prototype.getIndices = function () {
-                    return this.indices;
-                };
                 ExerciseService.prototype.getIndexByName = function (name) {
                     return this.indices.find(function (exercise) { return exercise.name.toLowerCase() === name.toLowerCase(); });
                 };
                 ExerciseService.prototype.getIndexById = function (id) {
-                    return this.indices.find(function (exercise) { return exercise.id === id; });
+                    return this.indices.find(function (exercise) { return exercise.id == id; });
                 };
                 ExerciseService = __decorate([
                     core_1.Injectable(), 

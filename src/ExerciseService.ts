@@ -3,7 +3,7 @@ import Papa from 'papaparse';
 
 @Injectable()
 export class ExerciseService {
-    private indices: any;
+    indices: any;
 
     constructor() {
         var self = this;
@@ -23,15 +23,11 @@ export class ExerciseService {
         });
     }
 
-    getIndices() {
-        return this.indices;
-    }
-
     getIndexByName(name: String) {
         return this.indices.find(exercise => exercise.name.toLowerCase() === name.toLowerCase());
     }
 
     getIndexById(id: Number) {
-        return this.indices.find(exercise => exercise.id === id);
+        return this.indices.find(exercise => exercise.id == id);
     }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from 'angular2/core';
 import { zingchart } from 'zingchart';
+import { Event } from './Event';
 
 @Injectable()
 export class BloodSugarService {
@@ -10,11 +11,7 @@ export class BloodSugarService {
         this.bsLevel = Array(60 * 24).fill(80);
     }
 
-    eatFood(food: Object, time: Number) {
-
-    }
-
-    doExercise(exercise: Object, time: Number) {
+    updateBsLevel(event: Event) {
 
     }
 

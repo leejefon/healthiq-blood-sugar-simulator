@@ -25,9 +25,7 @@ System.register(['angular2/core', 'zingchart'], function(exports_1, context_1) {
                 function BloodSugarService() {
                     this.bsLevel = Array(60 * 24).fill(80);
                 }
-                BloodSugarService.prototype.eatFood = function (food, time) {
-                };
-                BloodSugarService.prototype.doExercise = function (exercise, time) {
+                BloodSugarService.prototype.updateBsLevel = function (event) {
                 };
                 BloodSugarService.prototype.updateChart = function (chartId, data) {
                     zingchart_1.zingchart.exec(chartId, 'modify', {

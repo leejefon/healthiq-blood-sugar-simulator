@@ -1,0 +1,53 @@
+<div>
+    <h3 (click)="test()">Blood Sugar Simulator</h3>
+
+    <ul>
+        <li *ngFor="#event of events">{{ event.name }}</li>
+    </ul>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <select class="form-control" [(ngModel)]="newExerciseEvent.id">
+                <option value="0">Select Exercise</option>
+                <option value="{{ item.id }}" *ngFor="#item of exercise.indices">{{ item.name }}</option>
+            </select>
+        </div>
+
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <div class='input-group timepicker'>
+                    <input type='text' class="form-control" [(ngModel)]="newExerciseEvent.time" id="exerciseTime" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button (click)="addExerciseEvent()">Add</button>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <select class="form-control" [(ngModel)]="newFoodEvent.id">
+                <option value="0">Select Food</option>
+                <option value="{{ item.id }}" *ngFor="#item of food.indices">{{ item.name }}</option>
+            </select>
+        </div>
+
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <div class='input-group timepicker'>
+                    <input type='text' class="form-control" [(ngModel)]="newFoodEvent.time" id="foodTime" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button (click)="addFoodEvent()">Add</button>
+
+    <index-chart [chart]='chart'></index-chart>
+</div>

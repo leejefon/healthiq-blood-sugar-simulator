@@ -3,7 +3,7 @@ import Papa from 'papaparse';
 
 @Injectable()
 export class FoodService {
-    private indices: any;
+    indices: any;
 
     constructor() {
         var self = this;
@@ -23,15 +23,11 @@ export class FoodService {
         });
     }
 
-    getIndices() {
-        return this.indices;
-    }
-
     getIndexByName(name: String) {
         return this.indices.find(food => food.name.toLowerCase() === name.toLowerCase());
     }
 
     getIndexById(id: Number) {
-        return this.indices.find(food => food.id === id);
+        return this.indices.find(food => food.id == id);
     }
 }

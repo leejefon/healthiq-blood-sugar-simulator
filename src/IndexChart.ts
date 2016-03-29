@@ -1,4 +1,4 @@
-import { Component, NgZone, AfterView, OnDestroy } from 'angular2/core';
+import { Component, NgZone, AfterViewInit, OnDestroy } from 'angular2/core';
 import { zingchart } from 'zingchart';
 import { Chart } from './Chart';
 
@@ -7,7 +7,7 @@ import { Chart } from './Chart';
     inputs : ['chart'],
     templateUrl: 'templates/index-chart.html'
 })
-export class IndexChart {
+export class IndexChart implements AfterViewInit, OnDestroy {
     chart: Chart;
 
     constructor(private zone: NgZone) {

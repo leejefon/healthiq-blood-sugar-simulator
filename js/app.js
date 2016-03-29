@@ -1,4 +1,4 @@
-System.register(['angular2/core', './BloodSugarService', './ExerciseService', './FoodService', './IndexChart', './Chart'], function(exports_1, context_1) {
+System.register(['angular2/core', './BloodSugarService', './ExerciseService', './FoodService', './IndexChart', './Chart', './Event'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', './BloodSugarService', './ExerciseService', '.
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, BloodSugarService_1, ExerciseService_1, FoodService_1, IndexChart_1, Chart_1;
+    var core_1, BloodSugarService_1, ExerciseService_1, FoodService_1, IndexChart_1, Chart_1, Event_1;
     var App;
     return {
         setters:[
@@ -31,6 +31,9 @@ System.register(['angular2/core', './BloodSugarService', './ExerciseService', '.
             },
             function (Chart_1_1) {
                 Chart_1 = Chart_1_1;
+            },
+            function (Event_1_1) {
+                Event_1 = Event_1_1;
             }],
         execute: function() {
             App = (function () {
@@ -39,6 +42,9 @@ System.register(['angular2/core', './BloodSugarService', './ExerciseService', '.
                     this.bloodSugar = bloodSugar;
                     this.exercise = exercise;
                     this.food = food;
+                    this.events = [];
+                    this.newFoodEvent = { id: 0, time: '12:00 AM' };
+                    this.newExerciseEvent = { id: 0, time: '12:00 AM' };
                     this.chart = new Chart_1.Chart({
                         id: 'index-chart',
                         data: {
@@ -73,13 +79,51 @@ System.register(['angular2/core', './BloodSugarService', './ExerciseService', '.
                     });
                     this.bloodSugar.updateChart(this.chart.id, this.bloodSugar.bsLevel);
                 };
+                App.prototype.addExerciseEvent = function () {
+                    var newEvent = new Event_1.Event({
+                        type: 'exercise',
+                        name: this.exercise.getIndexById(this.newExerciseEvent.id).name,
+                        index: this.exercise.getIndexById(this.newExerciseEvent.id).index,
+                        time: this.getMinuteOfDay(this.newExerciseEvent.time)
+                    });
+                    this.events.push(newEvent);
+                };
+                App.prototype.addFoodEvent = function () {
+                    var newEvent = new Event_1.Event({
+                        type: 'food',
+                        name: this.food.getIndexById(this.newFoodEvent.id).name,
+                        index: this.food.getIndexById(this.newFoodEvent.id).index,
+                        time: this.getMinuteOfDay(this.newFoodEvent.time)
+                    });
+                    this.events.push(newEvent);
+                };
+                App.prototype.removeEvent = function () {
+                };
+                App.prototype.ngAfterViewInit = function () {
+                    var self = this;
+                    jQuery('.timepicker').datetimepicker({ format: 'LT', allowInputToggle: true });
+                    jQuery('.timepicker').on('dp.change', function (e) {
+                        var id = jQuery(this).find('input').attr('id');
+                        if (id === 'exerciseTime') {
+                            self.newExerciseEvent.time = jQuery('#exerciseTime').val();
+                        }
+                        else {
+                            self.newFoodEvent.time = jQuery('#foodTime').val();
+                        }
+                    });
+                };
                 App.prototype.leftPad = function (number) {
                     return ("00" + number).slice(-2);
+                };
+                App.prototype.getMinuteOfDay = function (time) {
+                    var randomDate = '2000/01/01 ';
+                    var timeObj = moment(randomDate + time);
+                    return timeObj.hours() * 60 + timeObj.minutes();
                 };
                 App = __decorate([
                     core_1.Component({
                         selector: 'blood-sugar-simulator',
-                        templateUrl: 'app.html',
+                        templateUrl: 'templates/app.html',
                         providers: [BloodSugarService_1.BloodSugarService, ExerciseService_1.ExerciseService, FoodService_1.FoodService],
                         directives: [IndexChart_1.IndexChart]
                     }), 
