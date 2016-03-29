@@ -6,7 +6,7 @@ import { IndexChart } from './IndexChart';
 import { Chart } from '../models/Chart';
 import { Event } from '../models/Event';
 import { OrderBy } from '../pipes/orderBy';
-import { Truncate } from '../pipes/Truncate';
+import { Truncate } from '../pipes/truncate';
 
 declare var jQuery:any;
 

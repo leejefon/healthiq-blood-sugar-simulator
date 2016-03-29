@@ -1,0 +1,10 @@
+{
+    "firebase": "blood-sugar",
+    "public": ".",
+    "ignore": [
+        "firebase.json",
+        "package.json",
+        "tsconfig.json",
+        "README.md"
+    ]
+}

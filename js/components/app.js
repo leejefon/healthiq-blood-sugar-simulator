@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../services/BloodSugarService', '../services/ExerciseService', '../services/FoodService', './IndexChart', '../models/Chart', '../models/Event', '../pipes/orderBy', '../pipes/Truncate'], function(exports_1, context_1) {
+System.register(['angular2/core', '../services/BloodSugarService', '../services/ExerciseService', '../services/FoodService', './IndexChart', '../models/Chart', '../models/Event', '../pipes/orderBy', '../pipes/truncate'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', '../services/BloodSugarService', '../services/
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, BloodSugarService_1, ExerciseService_1, FoodService_1, IndexChart_1, Chart_1, Event_1, orderBy_1, Truncate_1;
+    var core_1, BloodSugarService_1, ExerciseService_1, FoodService_1, IndexChart_1, Chart_1, Event_1, orderBy_1, truncate_1;
     var App;
     return {
         setters:[
@@ -38,8 +38,8 @@ System.register(['angular2/core', '../services/BloodSugarService', '../services/
             function (orderBy_1_1) {
                 orderBy_1 = orderBy_1_1;
             },
-            function (Truncate_1_1) {
-                Truncate_1 = Truncate_1_1;
+            function (truncate_1_1) {
+                truncate_1 = truncate_1_1;
             }],
         execute: function() {
             App = (function () {
@@ -125,7 +125,7 @@ System.register(['angular2/core', '../services/BloodSugarService', '../services/
                         templateUrl: 'templates/app.html',
                         providers: [BloodSugarService_1.BloodSugarService, ExerciseService_1.ExerciseService, FoodService_1.FoodService],
                         directives: [IndexChart_1.IndexChart],
-                        pipes: [orderBy_1.OrderBy, Truncate_1.Truncate]
+                        pipes: [orderBy_1.OrderBy, truncate_1.Truncate]
                     }), 
                     __metadata('design:paramtypes', [BloodSugarService_1.BloodSugarService, ExerciseService_1.ExerciseService, FoodService_1.FoodService])
                 ], App);
