@@ -1,4 +1,4 @@
-System.register(['angular2/core', './ExerciseService', './FoodService', './IndexChart', './Chart', 'zingchart'], function(exports_1, context_1) {
+System.register(['angular2/core', './BloodSugarService', './ExerciseService', './FoodService', './IndexChart', './Chart'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,15 @@ System.register(['angular2/core', './ExerciseService', './FoodService', './Index
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, ExerciseService_1, FoodService_1, IndexChart_1, Chart_1, zingchart_1;
+    var core_1, BloodSugarService_1, ExerciseService_1, FoodService_1, IndexChart_1, Chart_1;
     var App;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (BloodSugarService_1_1) {
+                BloodSugarService_1 = BloodSugarService_1_1;
             },
             function (ExerciseService_1_1) {
                 ExerciseService_1 = ExerciseService_1_1;
@@ -28,23 +31,20 @@ System.register(['angular2/core', './ExerciseService', './FoodService', './Index
             },
             function (Chart_1_1) {
                 Chart_1 = Chart_1_1;
-            },
-            function (zingchart_1_1) {
-                zingchart_1 = zingchart_1_1;
             }],
         execute: function() {
             App = (function () {
-                function App(exercise, food) {
+                function App(bloodSugar, exercise, food) {
                     var _this = this;
+                    this.bloodSugar = bloodSugar;
                     this.exercise = exercise;
                     this.food = food;
-                    this.bsLevel = Array(60 * 24).fill(80);
                     this.chart = new Chart_1.Chart({
                         id: 'index-chart',
                         data: {
                             type: 'line',
                             series: [{
-                                    values: this.bsLevel
+                                    values: bloodSugar.bsLevel
                                 }],
                             'scale-y': {
                                 label: { text: "Blood Sugar Level" },
@@ -56,31 +56,22 @@ System.register(['angular2/core', './ExerciseService', './FoodService', './Index
                                 'min-value': 0,
                                 'max-value': 60 * 24,
                                 labels: (function () {
-                                    var result = [];
-                                    for (var i = 0; i <= 60 * 24; i++) {
-                                        result[i] = _this.leftPad(Math.floor(i / 60)) + ":" + _this.leftPad((i % 60));
-                                    }
-                                    return result;
+                                    return Array(60 * 24).map(function (elem, i) {
+                                        return _this.leftPad(Math.floor(i / 60)) + ":" + _this.leftPad((i % 60));
+                                    });
                                 })()
                             }
                         }
                     });
                 }
                 App.prototype.test = function () {
-                    this.bsLevel = this.bsLevel.map(function (bslevel, index) {
+                    this.bloodSugar.bsLevel = this.bloodSugar.bsLevel.map(function (bslevel, index) {
                         if (index > 120 && index < 600)
                             return 100;
                         else
                             return bslevel;
                     });
-                    this.updateData(this.bsLevel);
-                };
-                App.prototype.updateData = function (data) {
-                    zingchart_1.zingchart.exec(this.chart.id, 'modify', {
-                        data: {
-                            series: [{ values: data }]
-                        }
-                    });
+                    this.bloodSugar.updateChart(this.chart.id, this.bloodSugar.bsLevel);
                 };
                 App.prototype.leftPad = function (number) {
                     return ("00" + number).slice(-2);
@@ -89,10 +80,10 @@ System.register(['angular2/core', './ExerciseService', './FoodService', './Index
                     core_1.Component({
                         selector: 'blood-sugar-simulator',
                         templateUrl: 'app.html',
-                        providers: [ExerciseService_1.ExerciseService, FoodService_1.FoodService],
+                        providers: [BloodSugarService_1.BloodSugarService, ExerciseService_1.ExerciseService, FoodService_1.FoodService],
                         directives: [IndexChart_1.IndexChart]
                     }), 
-                    __metadata('design:paramtypes', [ExerciseService_1.ExerciseService, FoodService_1.FoodService])
+                    __metadata('design:paramtypes', [BloodSugarService_1.BloodSugarService, ExerciseService_1.ExerciseService, FoodService_1.FoodService])
                 ], App);
                 return App;
             }());
