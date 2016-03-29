@@ -1,53 +1,70 @@
-<div>
-    <h3 (click)="test()">Blood Sugar Simulator</h3>
-
-    <ul>
-        <li *ngFor="#event of events">{{ event.name }}</li>
-    </ul>
+<div class="container">
+    <div class="page-header">
+        <h1 (click)="test()">Blood Sugar Simulator</h1>
+    </div>
 
     <div class="row">
-        <div class="col-sm-6">
-            <select class="form-control" [(ngModel)]="newExerciseEvent.id">
-                <option value="0">Select Exercise</option>
-                <option value="{{ item.id }}" *ngFor="#item of exercise.indices">{{ item.name }}</option>
-            </select>
-        </div>
+        <div class="col-lg-6" style="padding-top: 50px">
+            <ul class="list-group">
+                <li class="list-group-item" *ngIf="events.length === 0">No Events</li>
+                <li class="list-group-item" *ngFor="#event of events">
+                    {{ event.name }}
+                    <button type="button" class="close" aria-label="Close" (click)="removeEvent(event)"style="margin-top: -3px; margin-left: 12px;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <span class="badge">{{ event.timeReadable }}</span>
+                </li>
+            </ul>
 
-        <div class='col-sm-6'>
-            <div class="form-group">
-                <div class='input-group timepicker'>
-                    <input type='text' class="form-control" [(ngModel)]="newExerciseEvent.time" id="exerciseTime" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-time"></span>
-                    </span>
+            <div class="row">
+                <div class="col-sm-4">
+                    <select class="form-control" [(ngModel)]="newExerciseEvent.id">
+                        <option value="0">Select Exercise</option>
+                        <option value="{{ item.id }}" *ngFor="#item of exercise.indices">{{ item.name }}</option>
+                    </select>
+                </div>
+
+                <div class='col-sm-4'>
+                    <div class="form-group">
+                        <div class='input-group timepicker'>
+                            <input type='text' class="form-control" [(ngModel)]="newExerciseEvent.time" id="exerciseTime" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <button class="btn btn-default" (click)="addExerciseEvent()">Add Exercise</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <select class="form-control" [(ngModel)]="newFoodEvent.id">
+                        <option value="0">Select Food</option>
+                        <option value="{{ item.id }}" *ngFor="#item of food.indices">{{ item.name }}</option>
+                    </select>
+                </div>
+
+                <div class='col-sm-4'>
+                    <div class="form-group">
+                        <div class='input-group timepicker'>
+                            <input type='text' class="form-control" [(ngModel)]="newFoodEvent.time" id="foodTime" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <button class="btn btn-default" (click)="addFoodEvent()">AddFood</button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <button (click)="addExerciseEvent()">Add</button>
-
-    <div class="row">
-        <div class="col-sm-6">
-            <select class="form-control" [(ngModel)]="newFoodEvent.id">
-                <option value="0">Select Food</option>
-                <option value="{{ item.id }}" *ngFor="#item of food.indices">{{ item.name }}</option>
-            </select>
-        </div>
-
-        <div class='col-sm-6'>
-            <div class="form-group">
-                <div class='input-group timepicker'>
-                    <input type='text' class="form-control" [(ngModel)]="newFoodEvent.time" id="foodTime" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-time"></span>
-                    </span>
-                </div>
-            </div>
+        <div class="col-lg-6">
+            <index-chart [chart]='chart'></index-chart>
         </div>
     </div>
-
-    <button (click)="addFoodEvent()">Add</button>
-
-    <index-chart [chart]='chart'></index-chart>
 </div>

@@ -7,7 +7,6 @@ import { Chart } from '../models/Chart';
 import { Event } from '../models/Event';
 
 declare var jQuery:any;
-declare var moment:any;
 
 @Component({
     selector: 'blood-sugar-simulator',
@@ -68,10 +67,11 @@ export class App implements AfterViewInit {
 
     addExerciseEvent() {
         var newEvent = new Event({
+            id: this.events.length + 1,
             type: 'exercise',
             name: this.exercise.getIndexById(this.newExerciseEvent.id).name,
             index: this.exercise.getIndexById(this.newExerciseEvent.id).index,
-            time: this.getMinuteOfDay(this.newExerciseEvent.time)
+            time: this.newExerciseEvent.time
         });
 
         this.events.push(newEvent);
@@ -79,17 +79,18 @@ export class App implements AfterViewInit {
 
     addFoodEvent() {
         var newEvent = new Event({
+            id: this.events.length + 1,
             type: 'food',
             name: this.food.getIndexById(this.newFoodEvent.id).name,
             index: this.food.getIndexById(this.newFoodEvent.id).index,
-            time: this.getMinuteOfDay(this.newFoodEvent.time)
+            time: this.newFoodEvent.time
         });
 
         this.events.push(newEvent);
     }
 
-    removeEvent() {
-
+    removeEvent(event) {
+        this.events = this.events.filter(evt => evt.id !== event.id);
     }
 
     ngAfterViewInit() {
@@ -109,12 +110,5 @@ export class App implements AfterViewInit {
 
     private leftPad(number: Number) {
         return ("00" + number).slice(-2);
-    }
-
-    private getMinuteOfDay(time: String) {
-        var randomDate = '2000/01/01 ';
-        var timeObj = moment(randomDate + time);
-
-        return timeObj.hours() * 60 + timeObj.minutes();
     }
 }

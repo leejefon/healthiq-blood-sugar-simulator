@@ -81,23 +81,26 @@ System.register(['angular2/core', '../services/BloodSugarService', '../services/
                 };
                 App.prototype.addExerciseEvent = function () {
                     var newEvent = new Event_1.Event({
+                        id: this.events.length + 1,
                         type: 'exercise',
                         name: this.exercise.getIndexById(this.newExerciseEvent.id).name,
                         index: this.exercise.getIndexById(this.newExerciseEvent.id).index,
-                        time: this.getMinuteOfDay(this.newExerciseEvent.time)
+                        time: this.newExerciseEvent.time
                     });
                     this.events.push(newEvent);
                 };
                 App.prototype.addFoodEvent = function () {
                     var newEvent = new Event_1.Event({
+                        id: this.events.length + 1,
                         type: 'food',
                         name: this.food.getIndexById(this.newFoodEvent.id).name,
                         index: this.food.getIndexById(this.newFoodEvent.id).index,
-                        time: this.getMinuteOfDay(this.newFoodEvent.time)
+                        time: this.newFoodEvent.time
                     });
                     this.events.push(newEvent);
                 };
-                App.prototype.removeEvent = function () {
+                App.prototype.removeEvent = function (event) {
+                    this.events = this.events.filter(function (evt) { return evt.id !== event.id; });
                 };
                 App.prototype.ngAfterViewInit = function () {
                     var self = this;
@@ -114,11 +117,6 @@ System.register(['angular2/core', '../services/BloodSugarService', '../services/
                 };
                 App.prototype.leftPad = function (number) {
                     return ("00" + number).slice(-2);
-                };
-                App.prototype.getMinuteOfDay = function (time) {
-                    var randomDate = '2000/01/01 ';
-                    var timeObj = moment(randomDate + time);
-                    return timeObj.hours() * 60 + timeObj.minutes();
                 };
                 App = __decorate([
                     core_1.Component({
