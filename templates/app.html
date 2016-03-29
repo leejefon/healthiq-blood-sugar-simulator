@@ -4,12 +4,12 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-6" style="padding-top: 50px">
+        <div class="col-lg-6" id="leftPanel">
             <ul class="list-group">
                 <li class="list-group-item" *ngIf="events.length === 0">No Events</li>
                 <li class="list-group-item" *ngFor="#event of events | orderBy: 'time'">
                     {{ event.name | truncate: 60 }}
-                    <button type="button" class="close" aria-label="Close" (click)="removeEvent(event)"style="margin-top: -3px; margin-left: 12px;">
+                    <button type="button" class="close" aria-label="Close" (click)="removeEvent(event)">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <span class="badge">{{ event.timeReadable }}</span>
