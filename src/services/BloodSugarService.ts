@@ -6,19 +6,28 @@ import { Event } from '../models/Event';
 export class BloodSugarService {
 
     bsLevel: Number[];
+    chartId: String;
 
     constructor() {
         this.bsLevel = Array(60 * 24).fill(80);
     }
 
-    updateBsLevel(event: Event) {
-
+    setChartId(chartId) {
+        this.chartId = chartId;
     }
 
-    updateChart(chartId: String, data: any) {
-        zingchart.exec(chartId, 'modify', {
+    updateBsLevel(event: Event, action: String = 'add') {
+        this.bsLevel = this.bsLevel.map((bslevel, index) => {
+            if (index > 120 && index < 600) return 100;
+            else return bslevel;
+        });
+        this.updateChart();
+    }
+
+    private updateChart() {
+        zingchart.exec(this.chartId, 'modify', {
             data : {
-                series: [{ values: data }]
+                series: [{ values: this.bsLevel }]
             }
         });
     }

@@ -5,6 +5,8 @@ import { FoodService } from '../services/FoodService';
 import { IndexChart } from './IndexChart';
 import { Chart } from '../models/Chart';
 import { Event } from '../models/Event';
+import { OrderBy } from '../pipes/orderBy';
+import { Truncate } from '../pipes/Truncate';
 
 declare var jQuery:any;
 
@@ -12,7 +14,8 @@ declare var jQuery:any;
     selector: 'blood-sugar-simulator',
     templateUrl: 'templates/app.html',
     providers: [BloodSugarService, ExerciseService, FoodService],
-    directives: [IndexChart]
+    directives: [IndexChart],
+    pipes: [OrderBy, Truncate]
 })
 export class App implements AfterViewInit {
 
@@ -55,14 +58,7 @@ export class App implements AfterViewInit {
                 }
             }
         });
-    }
-
-    test() {
-        this.bloodSugar.bsLevel = this.bloodSugar.bsLevel.map((bslevel, index) => {
-            if (index > 120 && index < 600) return 100;
-            else return bslevel;
-        });
-        this.bloodSugar.updateChart(this.chart.id, this.bloodSugar.bsLevel);
+        this.bloodSugar.setChartId(this.chart.id);
     }
 
     addExerciseEvent() {
@@ -75,6 +71,7 @@ export class App implements AfterViewInit {
         });
 
         this.events.push(newEvent);
+        this.bloodSugar.updateBsLevel(newEvent);
     }
 
     addFoodEvent() {
@@ -87,10 +84,12 @@ export class App implements AfterViewInit {
         });
 
         this.events.push(newEvent);
+        this.bloodSugar.updateBsLevel(newEvent);
     }
 
     removeEvent(event) {
         this.events = this.events.filter(evt => evt.id !== event.id);
+        this.bloodSugar.updateBsLevel(event, 'remove');
     }
 
     ngAfterViewInit() {

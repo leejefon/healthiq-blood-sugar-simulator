@@ -25,12 +25,23 @@ System.register(['angular2/core', 'zingchart'], function(exports_1, context_1) {
                 function BloodSugarService() {
                     this.bsLevel = Array(60 * 24).fill(80);
                 }
-                BloodSugarService.prototype.updateBsLevel = function (event) {
+                BloodSugarService.prototype.setChartId = function (chartId) {
+                    this.chartId = chartId;
                 };
-                BloodSugarService.prototype.updateChart = function (chartId, data) {
-                    zingchart_1.zingchart.exec(chartId, 'modify', {
+                BloodSugarService.prototype.updateBsLevel = function (event, action) {
+                    if (action === void 0) { action = 'add'; }
+                    this.bsLevel = this.bsLevel.map(function (bslevel, index) {
+                        if (index > 120 && index < 600)
+                            return 100;
+                        else
+                            return bslevel;
+                    });
+                    this.updateChart();
+                };
+                BloodSugarService.prototype.updateChart = function () {
+                    zingchart_1.zingchart.exec(this.chartId, 'modify', {
                         data: {
-                            series: [{ values: data }]
+                            series: [{ values: this.bsLevel }]
                         }
                     });
                 };
