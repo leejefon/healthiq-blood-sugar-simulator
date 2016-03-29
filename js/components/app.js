@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../services/BloodSugarService', '../services/ExerciseService', '../services/FoodService', './IndexChart', '../models/Chart', '../models/Event', '../pipes/orderBy', '../pipes/truncate'], function(exports_1, context_1) {
+System.register(['angular2/core', './EventList', './IndexChart', '../models/Chart', '../services/BloodSugarService'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,21 +10,15 @@ System.register(['angular2/core', '../services/BloodSugarService', '../services/
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, BloodSugarService_1, ExerciseService_1, FoodService_1, IndexChart_1, Chart_1, Event_1, orderBy_1, truncate_1;
+    var core_1, EventList_1, IndexChart_1, Chart_1, BloodSugarService_1;
     var App;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (BloodSugarService_1_1) {
-                BloodSugarService_1 = BloodSugarService_1_1;
-            },
-            function (ExerciseService_1_1) {
-                ExerciseService_1 = ExerciseService_1_1;
-            },
-            function (FoodService_1_1) {
-                FoodService_1 = FoodService_1_1;
+            function (EventList_1_1) {
+                EventList_1 = EventList_1_1;
             },
             function (IndexChart_1_1) {
                 IndexChart_1 = IndexChart_1_1;
@@ -32,27 +26,17 @@ System.register(['angular2/core', '../services/BloodSugarService', '../services/
             function (Chart_1_1) {
                 Chart_1 = Chart_1_1;
             },
-            function (Event_1_1) {
-                Event_1 = Event_1_1;
-            },
-            function (orderBy_1_1) {
-                orderBy_1 = orderBy_1_1;
-            },
-            function (truncate_1_1) {
-                truncate_1 = truncate_1_1;
+            function (BloodSugarService_1_1) {
+                BloodSugarService_1 = BloodSugarService_1_1;
             }],
         execute: function() {
             App = (function () {
-                function App(bloodSugar, exercise, food) {
+                function App(bloodSugar) {
                     var _this = this;
                     this.bloodSugar = bloodSugar;
-                    this.exercise = exercise;
-                    this.food = food;
-                    this.events = [];
-                    this.newFoodEvent = { id: 0, time: '12:00 AM' };
-                    this.newExerciseEvent = { id: 0, time: '12:00 AM' };
+                    this.chartId = 'index-chart';
                     this.chart = new Chart_1.Chart({
-                        id: 'index-chart',
+                        id: this.chartId,
                         data: {
                             type: 'line',
                             series: [{
@@ -75,47 +59,7 @@ System.register(['angular2/core', '../services/BloodSugarService', '../services/
                             }
                         }
                     });
-                    this.bloodSugar.setChartId(this.chart.id);
                 }
-                App.prototype.addExerciseEvent = function () {
-                    var newEvent = new Event_1.Event({
-                        id: this.events.length + 1,
-                        type: 'exercise',
-                        name: this.exercise.getIndexById(this.newExerciseEvent.id).name,
-                        index: this.exercise.getIndexById(this.newExerciseEvent.id).index,
-                        time: this.newExerciseEvent.time
-                    });
-                    this.events.push(newEvent);
-                    this.bloodSugar.updateBsLevel(newEvent);
-                };
-                App.prototype.addFoodEvent = function () {
-                    var newEvent = new Event_1.Event({
-                        id: this.events.length + 1,
-                        type: 'food',
-                        name: this.food.getIndexById(this.newFoodEvent.id).name,
-                        index: this.food.getIndexById(this.newFoodEvent.id).index,
-                        time: this.newFoodEvent.time
-                    });
-                    this.events.push(newEvent);
-                    this.bloodSugar.updateBsLevel(newEvent);
-                };
-                App.prototype.removeEvent = function (event) {
-                    this.events = this.events.filter(function (evt) { return evt.id !== event.id; });
-                    this.bloodSugar.updateBsLevel(event, 'remove');
-                };
-                App.prototype.ngAfterViewInit = function () {
-                    var self = this;
-                    jQuery('.timepicker').datetimepicker({ format: 'LT', allowInputToggle: true });
-                    jQuery('.timepicker').on('dp.change', function (e) {
-                        var id = jQuery(this).find('input').attr('id');
-                        if (id === 'exerciseTime') {
-                            self.newExerciseEvent.time = jQuery('#exerciseTime').val();
-                        }
-                        else {
-                            self.newFoodEvent.time = jQuery('#foodTime').val();
-                        }
-                    });
-                };
                 App.prototype.leftPad = function (num) {
                     return ("00" + num).slice(-2);
                 };
@@ -123,11 +67,10 @@ System.register(['angular2/core', '../services/BloodSugarService', '../services/
                     core_1.Component({
                         selector: 'blood-sugar-simulator',
                         templateUrl: 'templates/app.html',
-                        providers: [BloodSugarService_1.BloodSugarService, ExerciseService_1.ExerciseService, FoodService_1.FoodService],
-                        directives: [IndexChart_1.IndexChart],
-                        pipes: [orderBy_1.OrderBy, truncate_1.Truncate]
+                        providers: [BloodSugarService_1.BloodSugarService],
+                        directives: [EventList_1.EventList, IndexChart_1.IndexChart]
                     }), 
-                    __metadata('design:paramtypes', [BloodSugarService_1.BloodSugarService, ExerciseService_1.ExerciseService, FoodService_1.FoodService])
+                    __metadata('design:paramtypes', [BloodSugarService_1.BloodSugarService])
                 ], App);
                 return App;
             }());

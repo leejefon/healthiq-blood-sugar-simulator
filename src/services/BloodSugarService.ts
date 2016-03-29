@@ -11,7 +11,7 @@ export class BloodSugarService {
 
     constructor() {
         this.bsLevel = Array(60 * 24).fill(80);
-        this.timeAffected = Array(60*24).fill(false);
+        this.timeAffected = Array(60 * 24).fill(false);
     }
 
     setChartId(chartId) {

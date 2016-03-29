@@ -4,7 +4,7 @@ import { Chart } from '../models/Chart';
 
 @Component({
     selector: 'index-chart',
-    inputs : ['chart'],
+    inputs: ['chart'],
     templateUrl: 'templates/index-chart.html'
 })
 export class IndexChart implements AfterViewInit, OnDestroy {
