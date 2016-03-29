@@ -51,8 +51,8 @@ export class App implements AfterViewInit {
                     'min-value': 0,
                     'max-value': 60 * 24,
                     labels: (() => {
-                        return Array(60 * 24).map((elem, i) => {
-                            return this.leftPad(Math.floor(i / 60)) + ":" + this.leftPad((i % 60));
+                        return Array(60 * 24 + 1).fill(0).map((elem, i) => {
+                            return this.leftPad(Math.floor(i / 60) % 24) + ":" + this.leftPad((i % 60));
                         });
                     })()
                 }
@@ -107,7 +107,7 @@ export class App implements AfterViewInit {
         });
     }
 
-    private leftPad(number: Number) {
-        return ("00" + number).slice(-2);
+    private leftPad(num: number) {
+        return ("00" + num).slice(-2);
     }
 }

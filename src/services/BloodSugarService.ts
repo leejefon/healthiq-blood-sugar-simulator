@@ -29,10 +29,8 @@ export class BloodSugarService {
             this.decrease(event.time, event.bsLevelChange, 2);
         }
 
-        // this.bsLevel = this.bsLevel.map((bslevel, index) => {
-        //     if (index > 120 && index < 600) return 100;
-        //     else return bslevel;
-        // });
+        this.normalize();
+        this.glycation();
         this.updateChart();
     }
 
@@ -70,7 +68,17 @@ export class BloodSugarService {
         });
     }
 
-    private normalization() {
+    private normalize() {
+        for (var minute = 0; minute < 60 * 24; minute++) {
+            var prev = this.bsLevel[minute - 1];
+            if (!this.timeAffected[minute] && Math.abs(80 - prev) > 0.01) {
+                if (prev > 80) this.bsLevel[minute] = prev - 1;
+                else if (prev < 80) this.bsLevel[minute] = prev + 1;
+            }
+        }
+    }
+
+    private glycation() {
 
     }
 

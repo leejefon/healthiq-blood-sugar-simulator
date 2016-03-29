@@ -43,6 +43,8 @@ System.register(['angular2/core', 'zingchart'], function(exports_1, context_1) {
                     else if (event.type === 'food' && eventAction === 'remove') {
                         this.decrease(event.time, event.bsLevelChange, 2);
                     }
+                    this.normalize();
+                    this.glycation();
                     this.updateChart();
                 };
                 BloodSugarService.prototype.increase = function (time, total, durationInHour) {
@@ -75,7 +77,18 @@ System.register(['angular2/core', 'zingchart'], function(exports_1, context_1) {
                         return minute >= time && minute < endTime ? true : affected;
                     });
                 };
-                BloodSugarService.prototype.normalization = function () {
+                BloodSugarService.prototype.normalize = function () {
+                    for (var minute = 0; minute < 60 * 24; minute++) {
+                        var prev = this.bsLevel[minute - 1];
+                        if (!this.timeAffected[minute] && Math.abs(80 - prev) > 0.01) {
+                            if (prev > 80)
+                                this.bsLevel[minute] = prev - 1;
+                            else if (prev < 80)
+                                this.bsLevel[minute] = prev + 1;
+                        }
+                    }
+                };
+                BloodSugarService.prototype.glycation = function () {
                 };
                 BloodSugarService.prototype.updateChart = function () {
                     zingchart_1.zingchart.exec(this.chartId, 'modify', {

@@ -68,8 +68,8 @@ System.register(['angular2/core', '../services/BloodSugarService', '../services/
                                 'min-value': 0,
                                 'max-value': 60 * 24,
                                 labels: (function () {
-                                    return Array(60 * 24).map(function (elem, i) {
-                                        return _this.leftPad(Math.floor(i / 60)) + ":" + _this.leftPad((i % 60));
+                                    return Array(60 * 24 + 1).fill(0).map(function (elem, i) {
+                                        return _this.leftPad(Math.floor(i / 60) % 24) + ":" + _this.leftPad((i % 60));
                                     });
                                 })()
                             }
@@ -116,8 +116,8 @@ System.register(['angular2/core', '../services/BloodSugarService', '../services/
                         }
                     });
                 };
-                App.prototype.leftPad = function (number) {
-                    return ("00" + number).slice(-2);
+                App.prototype.leftPad = function (num) {
+                    return ("00" + num).slice(-2);
                 };
                 App = __decorate([
                     core_1.Component({
