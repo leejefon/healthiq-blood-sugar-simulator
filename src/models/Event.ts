@@ -5,8 +5,8 @@ export class Event {
     id: Number;
     type: String;
     name: String;
-    bsLevelChange: Number;
-    time: Number;
+    bsLevelChange: number;
+    time: number;
     timeReadable: String;
 
     constructor(event: any) {

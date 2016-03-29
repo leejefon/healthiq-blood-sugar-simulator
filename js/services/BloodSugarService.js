@@ -24,19 +24,58 @@ System.register(['angular2/core', 'zingchart'], function(exports_1, context_1) {
             BloodSugarService = (function () {
                 function BloodSugarService() {
                     this.bsLevel = Array(60 * 24).fill(80);
+                    this.timeAffected = Array(60 * 24).fill(false);
                 }
                 BloodSugarService.prototype.setChartId = function (chartId) {
                     this.chartId = chartId;
                 };
-                BloodSugarService.prototype.updateBsLevel = function (event, action) {
-                    if (action === void 0) { action = 'add'; }
-                    this.bsLevel = this.bsLevel.map(function (bslevel, index) {
-                        if (index > 120 && index < 600)
-                            return 100;
-                        else
-                            return bslevel;
-                    });
+                BloodSugarService.prototype.updateBsLevel = function (event, eventAction) {
+                    if (eventAction === void 0) { eventAction = 'add'; }
+                    if (event.type === 'exercise' && eventAction === 'add') {
+                        this.decrease(event.time, event.bsLevelChange, 1);
+                    }
+                    else if (event.type === 'exercise' && eventAction === 'remove') {
+                        this.increase(event.time, event.bsLevelChange, 1);
+                    }
+                    else if (event.type === 'food' && eventAction === 'add') {
+                        this.increase(event.time, event.bsLevelChange, 2);
+                    }
+                    else if (event.type === 'food' && eventAction === 'remove') {
+                        this.decrease(event.time, event.bsLevelChange, 2);
+                    }
                     this.updateChart();
+                };
+                BloodSugarService.prototype.increase = function (time, total, durationInHour) {
+                    var changeEveryMin = total / durationInHour / 60;
+                    var endTime = durationInHour * 60 + time;
+                    this.bsLevel = this.bsLevel.map(function (level, minute) {
+                        if (minute >= time && minute < endTime) {
+                            return level + changeEveryMin * (minute - time);
+                        }
+                        else {
+                            return level;
+                        }
+                    });
+                    this.timeAffected = this.timeAffected.map(function (affected, minute) {
+                        return minute >= time && minute < endTime ? true : affected;
+                    });
+                };
+                BloodSugarService.prototype.decrease = function (time, total, durationInHour) {
+                    var changeEveryMin = total / durationInHour / 60;
+                    var endTime = durationInHour * 60 + time;
+                    this.bsLevel = this.bsLevel.map(function (level, minute) {
+                        if (minute >= time && minute < endTime) {
+                            return level - changeEveryMin * (minute - time);
+                        }
+                        else {
+                            return level;
+                        }
+                    });
+                    this.timeAffected = this.timeAffected.map(function (affected, minute) {
+                        return minute >= time && minute < endTime ? true : affected;
+                    });
+                };
+                BloodSugarService.prototype.normalization = function () {
                 };
                 BloodSugarService.prototype.updateChart = function () {
                     zingchart_1.zingchart.exec(this.chartId, 'modify', {
