@@ -1,10 +1,10 @@
 import { Component, AfterViewInit } from 'angular2/core';
-import { BloodSugarService } from './BloodSugarService';
-import { ExerciseService } from './ExerciseService';
-import { FoodService } from './FoodService';
+import { BloodSugarService } from '../services/BloodSugarService';
+import { ExerciseService } from '../services/ExerciseService';
+import { FoodService } from '../services/FoodService';
 import { IndexChart } from './IndexChart';
-import { Chart } from './Chart';
-import { Event } from './Event';
+import { Chart } from '../models/Chart';
+import { Event } from '../models/Event';
 
 declare var jQuery:any;
 declare var moment:any;

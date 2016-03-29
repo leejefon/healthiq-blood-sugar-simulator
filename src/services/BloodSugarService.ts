@@ -1,6 +1,6 @@
 import { Injectable } from 'angular2/core';
 import { zingchart } from 'zingchart';
-import { Event } from './Event';
+import { Event } from '../models/Event';
 
 @Injectable()
 export class BloodSugarService {

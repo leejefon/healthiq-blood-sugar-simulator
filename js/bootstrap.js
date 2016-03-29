@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/platform/browser', './app'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/platform/browser', './components/app'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var core_1, browser_1, app_1;

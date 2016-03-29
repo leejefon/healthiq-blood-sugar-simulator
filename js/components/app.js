@@ -1,4 +1,4 @@
-System.register(['angular2/core', './BloodSugarService', './ExerciseService', './FoodService', './IndexChart', './Chart', './Event'], function(exports_1, context_1) {
+System.register(['angular2/core', '../services/BloodSugarService', '../services/ExerciseService', '../services/FoodService', './IndexChart', '../models/Chart', '../models/Event'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {

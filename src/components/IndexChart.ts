@@ -1,6 +1,6 @@
 import { Component, NgZone, AfterViewInit, OnDestroy } from 'angular2/core';
 import { zingchart } from 'zingchart';
-import { Chart } from './Chart';
+import { Chart } from '../models/Chart';
 
 @Component({
     selector: 'index-chart',
