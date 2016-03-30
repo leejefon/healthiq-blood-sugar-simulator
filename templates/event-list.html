@@ -3,7 +3,7 @@
     <li class="list-group-item" *ngFor="#event of events | orderBy: 'time'">
         {{ event.name | truncate: 60 }}
         <span class="text-danger" *ngIf="event.type === 'food'">+{{ event.bsLevelChange }}</span>
-        <span class="text-success" *ngIf="event.type === 'exercise'">-{{ event.bsLevelChange }}</span>
+        <span class="text-success" *ngIf="event.type === 'exercise'">{{ event.bsLevelChange }}</span>
 
         <button type="button" class="close" aria-label="Close" (click)="removeEvent(event)">
             <span aria-hidden="true">&times;</span>

@@ -37,12 +37,12 @@ export class EventList implements AfterViewInit, OnInit {
             id: this.events.length + 1,
             type: 'exercise',
             name: this.exercise.getIndexById(this.newExerciseEvent.id).name,
-            index: this.exercise.getIndexById(this.newExerciseEvent.id).index,
+            index: 0 - this.exercise.getIndexById(this.newExerciseEvent.id).index,
             time: this.newExerciseEvent.time
         });
 
         this.events.push(newEvent);
-        this.bloodSugar.updateBsLevel(newEvent);
+        this.bloodSugar.update(this.events);
     }
 
     addFoodEvent() {
@@ -55,12 +55,12 @@ export class EventList implements AfterViewInit, OnInit {
         });
 
         this.events.push(newEvent);
-        this.bloodSugar.updateBsLevel(newEvent);
+        this.bloodSugar.update(this.events);
     }
 
     removeEvent(event) {
         this.events = this.events.filter(evt => evt.id !== event.id);
-        this.bloodSugar.updateBsLevel(event, 'remove');
+        this.bloodSugar.update(this.events);
     }
 
     ngOnInit() {

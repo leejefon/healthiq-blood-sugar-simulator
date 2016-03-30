@@ -2,27 +2,25 @@ import { Component } from 'angular2/core';
 import { EventList } from './EventList';
 import { IndexChart } from './IndexChart';
 import { Chart } from '../models/Chart';
-import { BloodSugarService } from '../services/BloodSugarService';
 
 @Component({
     selector: 'blood-sugar-simulator',
     templateUrl: 'templates/app.html',
-    providers: [BloodSugarService],
     directives: [EventList, IndexChart]
 })
 export class App {
     chartId: String = 'index-chart';
     chart: Chart;
 
-    constructor(
-        private bloodSugar: BloodSugarService
-    ) {
+    constructor() {
+        let initialBsLevel = Array(60 * 24).fill(80);
+
         this.chart = new Chart({
             id : this.chartId,
             data : {
                 type: 'line',
                 series: [{
-                    values: bloodSugar.bsLevel
+                    values: initialBsLevel
                 }],
                 'scale-y': {
                     label: { text: "Blood Sugar Level" },

@@ -50,11 +50,11 @@ System.register(['angular2/core', '../services/BloodSugarService', '../services/
                         id: this.events.length + 1,
                         type: 'exercise',
                         name: this.exercise.getIndexById(this.newExerciseEvent.id).name,
-                        index: this.exercise.getIndexById(this.newExerciseEvent.id).index,
+                        index: 0 - this.exercise.getIndexById(this.newExerciseEvent.id).index,
                         time: this.newExerciseEvent.time
                     });
                     this.events.push(newEvent);
-                    this.bloodSugar.updateBsLevel(newEvent);
+                    this.bloodSugar.update(this.events);
                 };
                 EventList.prototype.addFoodEvent = function () {
                     var newEvent = new Event_1.Event({
@@ -65,11 +65,11 @@ System.register(['angular2/core', '../services/BloodSugarService', '../services/
                         time: this.newFoodEvent.time
                     });
                     this.events.push(newEvent);
-                    this.bloodSugar.updateBsLevel(newEvent);
+                    this.bloodSugar.update(this.events);
                 };
                 EventList.prototype.removeEvent = function (event) {
                     this.events = this.events.filter(function (evt) { return evt.id !== event.id; });
-                    this.bloodSugar.updateBsLevel(event, 'remove');
+                    this.bloodSugar.update(this.events);
                 };
                 EventList.prototype.ngOnInit = function () {
                     this.bloodSugar.setChartId(this.chartId);

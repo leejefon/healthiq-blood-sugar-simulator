@@ -6,80 +6,58 @@ import { Event } from '../models/Event';
 export class BloodSugarService {
 
     bsLevel: number[];
-    timeAffected: Boolean[];
+    eventsInEveryMinute: any[];
     chartId: String;
 
     constructor() {
-        this.bsLevel = Array(60 * 24).fill(80);
-        this.timeAffected = Array(60 * 24).fill(false);
+        this.reset();
+    }
+
+    reset() {
+        this.bsLevel = new Array(60 * 24);
+        this.eventsInEveryMinute = new Array(60 * 24).fill(new Array());
     }
 
     setChartId(chartId) {
         this.chartId = chartId;
     }
 
-    updateBsLevel(event: Event, eventAction: String = 'add') {
-        if (event.type === 'exercise' && eventAction === 'add') {
-            this.decrease(event.time, event.bsLevelChange, 1);
-        } else if (event.type === 'exercise' && eventAction === 'remove') {
-            this.increase(event.time, event.bsLevelChange, 1);
-        } else if (event.type === 'food' && eventAction === 'add') {
-            this.increase(event.time, event.bsLevelChange, 2);
-        } else if (event.type === 'food' && eventAction === 'remove') {
-            this.decrease(event.time, event.bsLevelChange, 2);
-        }
+    update(events: Event[]) {
+        this.reset();
 
-        this.normalize();
-        this.glycation();
+        events.forEach(event => {
+            var durationInHour = event.type === 'exercise' ? 1 : 2;
+            var changeEveryMin = event.bsLevelChange / durationInHour / 60;
+            var endTime = durationInHour * 60 + event.time;
+
+            this.eventsInEveryMinute = this.eventsInEveryMinute.map((evts, minute) => {
+                if (minute >= event.time && minute < endTime) {
+                    return evts.concat(changeEveryMin);
+                } else {
+                    return evts;
+                }
+            });
+        });
+
+        this.updateBsLevel();
         this.updateChart();
     }
 
-    private increase(time: number, total: number, durationInHour: number) {
-        var changeEveryMin = total / durationInHour / 60;
-        var endTime = durationInHour * 60 + time;
+    private updateBsLevel() {
+        var currentBsLevel = 80;
 
-        this.bsLevel = this.bsLevel.map((level, minute) => {
-            if (minute >= time && minute < endTime) {
-                return level + changeEveryMin * (minute - time);
+        this.eventsInEveryMinute.forEach((events, minute) => {
+            if (events.length === 0 && Math.abs(80 - currentBsLevel) >= 1) {
+                if (currentBsLevel > 80) this.bsLevel[minute] = --currentBsLevel;
+                else if (currentBsLevel < 80) this.bsLevel[minute] = ++currentBsLevel;
+            } else if (events.length > 0) {
+                var totalChange = events.reduce((prev, curr) => prev + curr, 0);
+                currentBsLevel += totalChange;
+                this.bsLevel[minute] = currentBsLevel;
             } else {
-                return level;
+                this.bsLevel[minute] = currentBsLevel; // Should be ~80
             }
         });
-
-        this.timeAffected = this.timeAffected.map((affected, minute) => {
-            return minute >= time && minute < endTime ? true : affected;
-        });
-    }
-
-    private decrease(time: number, total: number, durationInHour: number) {
-        var changeEveryMin = total / durationInHour / 60;
-        var endTime = durationInHour * 60 + time;
-
-        this.bsLevel = this.bsLevel.map((level, minute) => {
-            if (minute >= time && minute < endTime) {
-                return level - changeEveryMin * (minute - time);
-            } else {
-                return level;
-            }
-        });
-
-        this.timeAffected = this.timeAffected.map((affected, minute) => {
-            return minute >= time && minute < endTime ? true : affected;
-        });
-    }
-
-    private normalize() {
-        for (var minute = 0; minute < 60 * 24; minute++) {
-            var prev = this.bsLevel[minute - 1];
-            if (!this.timeAffected[minute] && Math.abs(80 - prev) > 0.01) {
-                if (prev > 80) this.bsLevel[minute] = prev - 1;
-                else if (prev < 80) this.bsLevel[minute] = prev + 1;
-            }
-        }
-    }
-
-    private glycation() {
-
     }
 
     private updateChart() {
