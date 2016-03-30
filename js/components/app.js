@@ -31,18 +31,27 @@ System.register(['angular2/core', './EventList', './IndexChart', '../models/Char
                 function App() {
                     var _this = this;
                     this.chartId = 'index-chart';
-                    var initialBsLevel = Array(60 * 24).fill(80);
+                    var initialBsLevel = new Array(60 * 24).fill(80);
+                    var topBsLevel = new Array(60 * 24).fill(150);
+                    var iniialGlycationLevel = new Array(60 * 24).fill(0);
                     this.chart = new Chart_1.Chart({
                         id: this.chartId,
                         data: {
                             type: 'line',
-                            series: [{
-                                    values: initialBsLevel
-                                }],
+                            series: [
+                                { values: initialBsLevel, scales: "scale-x,scale-y" },
+                                { values: topBsLevel, scales: "scale-x,scale-y" },
+                                { values: iniialGlycationLevel, scales: "scale-x,scale-y-2" }
+                            ],
                             'scale-y': {
                                 label: { text: "Blood Sugar Level" },
                                 'min-value': 0,
-                                'max-value': 160
+                                'step': 20
+                            },
+                            'scale-y-2': {
+                                label: { text: "Glycation Level" },
+                                'min-value': 0,
+                                'max-value': 300
                             },
                             'scale-x': {
                                 label: { text: "Hours of a Day" },
@@ -54,7 +63,8 @@ System.register(['angular2/core', './EventList', './IndexChart', '../models/Char
                                     });
                                 })()
                             }
-                        }
+                        },
+                        width: 560
                     });
                 }
                 App.prototype.leftPad = function (num) {

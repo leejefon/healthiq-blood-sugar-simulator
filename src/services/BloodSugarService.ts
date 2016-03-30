@@ -6,6 +6,8 @@ import { Event } from '../models/Event';
 export class BloodSugarService {
 
     bsLevel: number[];
+    bsLevelTopBorder: number[];
+    glycationLevel: number[];
     eventsInEveryMinute: any[];
     chartId: String;
 
@@ -15,6 +17,8 @@ export class BloodSugarService {
 
     reset() {
         this.bsLevel = new Array(60 * 24);
+        this.bsLevelTopBorder = new Array(60 * 24).fill(150);
+        this.glycationLevel = new Array(60 * 24).fill(0);
         this.eventsInEveryMinute = new Array(60 * 24).fill(new Array());
     }
 
@@ -40,6 +44,7 @@ export class BloodSugarService {
         });
 
         this.updateBsLevel();
+        this.updateGlycationLevel();
         this.updateChart();
     }
 
@@ -60,10 +65,24 @@ export class BloodSugarService {
         });
     }
 
+    private updateGlycationLevel() {
+        var currentGlycationLevel = 0;
+        this.bsLevel.forEach((level, minute) => {
+            if (level > 150) {
+                currentGlycationLevel++;
+            }
+            this.glycationLevel[minute] = currentGlycationLevel;
+        });
+    }
+
     private updateChart() {
         zingchart.exec(this.chartId, 'modify', {
             data : {
-                series: [{ values: this.bsLevel }]
+                series: [
+                    { values: this.bsLevel, scales: "scale-x,scale-y" },
+                    { values: this.bsLevelTopBorder, scales: "scale-x,scale-y" },
+                    { values: this.glycationLevel, scales: "scale-x,scale-y-2" }
+                ]
             }
         });
     }

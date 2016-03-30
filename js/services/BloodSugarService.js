@@ -27,6 +27,8 @@ System.register(['angular2/core', 'zingchart'], function(exports_1, context_1) {
                 }
                 BloodSugarService.prototype.reset = function () {
                     this.bsLevel = new Array(60 * 24);
+                    this.bsLevelTopBorder = new Array(60 * 24).fill(150);
+                    this.glycationLevel = new Array(60 * 24).fill(0);
                     this.eventsInEveryMinute = new Array(60 * 24).fill(new Array());
                 };
                 BloodSugarService.prototype.setChartId = function (chartId) {
@@ -49,6 +51,7 @@ System.register(['angular2/core', 'zingchart'], function(exports_1, context_1) {
                         });
                     });
                     this.updateBsLevel();
+                    this.updateGlycationLevel();
                     this.updateChart();
                 };
                 BloodSugarService.prototype.updateBsLevel = function () {
@@ -71,10 +74,24 @@ System.register(['angular2/core', 'zingchart'], function(exports_1, context_1) {
                         }
                     });
                 };
+                BloodSugarService.prototype.updateGlycationLevel = function () {
+                    var _this = this;
+                    var currentGlycationLevel = 0;
+                    this.bsLevel.forEach(function (level, minute) {
+                        if (level > 150) {
+                            currentGlycationLevel++;
+                        }
+                        _this.glycationLevel[minute] = currentGlycationLevel;
+                    });
+                };
                 BloodSugarService.prototype.updateChart = function () {
                     zingchart_1.zingchart.exec(this.chartId, 'modify', {
                         data: {
-                            series: [{ values: this.bsLevel }]
+                            series: [
+                                { values: this.bsLevel, scales: "scale-x,scale-y" },
+                                { values: this.bsLevelTopBorder, scales: "scale-x,scale-y" },
+                                { values: this.glycationLevel, scales: "scale-x,scale-y-2" }
+                            ]
                         }
                     });
                 };
