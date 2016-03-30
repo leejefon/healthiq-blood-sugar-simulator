@@ -33,6 +33,8 @@ export class EventList implements AfterViewInit, OnInit {
     }
 
     addExerciseEvent() {
+        if (this.newExerciseEvent.id === 0) return;
+
         var newEvent = new Event({
             id: this.events.length + 1,
             type: 'exercise',
@@ -46,6 +48,8 @@ export class EventList implements AfterViewInit, OnInit {
     }
 
     addFoodEvent() {
+        if (this.newFoodEvent.id === 0) return;
+
         var newEvent = new Event({
             id: this.events.length + 1,
             type: 'food',

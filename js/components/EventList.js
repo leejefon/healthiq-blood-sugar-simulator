@@ -46,6 +46,8 @@ System.register(['angular2/core', '../services/BloodSugarService', '../services/
                     this.newExerciseEvent = { id: 0, time: '12:00 AM' };
                 }
                 EventList.prototype.addExerciseEvent = function () {
+                    if (this.newExerciseEvent.id === 0)
+                        return;
                     var newEvent = new Event_1.Event({
                         id: this.events.length + 1,
                         type: 'exercise',
@@ -57,6 +59,8 @@ System.register(['angular2/core', '../services/BloodSugarService', '../services/
                     this.bloodSugar.update(this.events);
                 };
                 EventList.prototype.addFoodEvent = function () {
+                    if (this.newFoodEvent.id === 0)
+                        return;
                     var newEvent = new Event_1.Event({
                         id: this.events.length + 1,
                         type: 'food',
