@@ -18,5 +18,7 @@
     "zingchart": "^2.3.0",
     "zone.js": "^0.5.15"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "jasmine-core": "^2.4.1"
+  }
 }

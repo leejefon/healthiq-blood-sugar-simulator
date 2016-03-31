@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>Blood Sugar Unit Tests</title>
+
+    <link rel="stylesheet" href="node_modules/jasmine-core/lib/jasmine-core/jasmine.css" />
+
+    <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+
+    <script src="node_modules/jasmine-core/lib/jasmine-core/jasmine.js"></script>
+    <script src="node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
+    <script src="node_modules/jasmine-core/lib/jasmine-core/boot.js"></script>
+
+    <script src="node_modules/rxjs/bundles/Rx.js"></script>
+    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+    <script src="node_modules/angular2/bundles/angular2.js"></script>
+
+    <script src="node_modules/eonasdan-bootstrap-datetimepicker/node_modules/moment/moment.js"></script>
+</head>
+<body>
+    <script>
+        System.config({
+            map: {
+                app: "./js",
+                papaparse: "/node_modules/papaparse/papaparse.min.js",
+                zingchart: "/node_modules/zingchart/client/zingchart.min.js"
+            },
+            packages: {
+                app: {
+                    main: './test.js',
+                    defaultExtension: 'js'
+                }
+            }
+        });
+
+        System.import('app')
+            .then(window.onload)
+            .catch(console.error.bind(console));
+    </script>
+</body>
+</html>
