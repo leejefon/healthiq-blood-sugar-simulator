@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title>Blood Sugar Simulator</title>
 
-    <link rel="stylesheet" href="node_modules/eonasdan-bootstrap-datetimepicker/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
     <link rel="stylesheet" href="style.css" />
 
@@ -12,30 +12,16 @@
     <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
     <script src="node_modules/systemjs/dist/system.src.js"></script>
 
-    <script src="node_modules/rxjs/bundles/Rx.js"></script>
     <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
-    <script src="node_modules/angular2/bundles/angular2.js"></script>
 
-    <script src="node_modules/eonasdan-bootstrap-datetimepicker/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="node_modules/eonasdan-bootstrap-datetimepicker/node_modules/moment/moment.js"></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/moment/moment.js"></script>
     <script src="node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="dist/system.config.js"></script>
+    <script src="dist/combined.min.js"></script>
 
     <script>
-        System.config({
-            map: {
-                app: "./js",
-                papaparse: "/node_modules/papaparse/papaparse.min.js",
-                zingchart: "/node_modules/zingchart/client/zingchart.min.js"
-            },
-            packages: {
-                app: {
-                    main: './bootstrap.js',
-                    defaultExtension: 'js'
-                }
-            }
-        });
-
-        System.import('app')
+        System.import('js/bootstrap.js')
             .catch(console.error.bind(console));
     </script>
 </head>
